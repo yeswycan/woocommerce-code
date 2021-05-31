@@ -17,14 +17,14 @@ function filter_order_get_items_by_sku( $items, $order, $types ) {
             }
         }
 
-        // Only for line items when our sku array is not empty
+        // Seulement pour les produits qui ont un SKU/UGS
         if( ! empty($item_skus) ) {
-            // Sorting in ASC order based on SKUs;
-            ksort($item_skus); // or use krsort() for DESC order
+            // Afficher dans l'ordre ASC en fonction des SKU;
+            ksort($item_skus); // Utiliser krsort() pour afficher en DESC
 
             // Loop through sorted $item_skus array
             foreach( $item_skus as $sku => $item_id ){
-                // Set items in the correct order
+                // Afficher les produits dans le bon ordre
                 $sorted_items[$item_id] = $items[$item_id];
             }
             $items = $sorted_items;
