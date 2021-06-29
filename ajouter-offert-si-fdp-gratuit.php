@@ -1,6 +1,7 @@
 <?php
 
 // Ajout OFFERT si prix shipping est gratuit
+// Add "Free" if shipping price is free, change word in line 7
 function custom_label( $label, $method ) {
     if ( $method->cost == 0 ) {
         $label .= " (OFFERT)";
