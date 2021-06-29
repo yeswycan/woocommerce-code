@@ -1,6 +1,7 @@
 <?php
 
 /* Afficher "À partir de" pour les produits variables */
+/* Display "From xxx$" for variable products, change line 15 for english words */
 add_filter( 'woocommerce_variable_sale_price_html', 'wpm_variation_price_format', 10, 2 );
 add_filter( 'woocommerce_variable_price_html', 'wpm_variation_price_format', 10, 2 );
 
