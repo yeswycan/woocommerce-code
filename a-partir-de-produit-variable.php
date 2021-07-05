@@ -19,3 +19,4 @@ return $price;
 $price = sprintf( __( '%1$s', 'woocommerce' ), wc_price( $min_price ) );
 return $price;
 }
+}
