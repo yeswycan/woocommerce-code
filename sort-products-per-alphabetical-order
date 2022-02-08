@@ -1,5 +1,3 @@
-<?php
-
 //Ajout d'une option de tri alphabétique aux pages de paramètres de boutique et de produit
 //Adding Alphabetical sorting option to shop and product settings pages
 function sip_alphabetical_shop_ordering( $sort_args ) {
