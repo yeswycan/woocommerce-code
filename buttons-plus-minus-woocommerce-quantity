@@ -1,0 +1,61 @@
+****** STYLE DES BOUTONS *******
+* Ligne 6 à 44 à insérer dans le style.css du child theme *
+* Ligne 47 à 61 à insérer dans le functions.php du child thème *
+* Changer ensuite les couleurs etc du style en fonction des besoins *
+
+/* Bouton + & - Ajout produit */
+.quantity {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+}
+@media (max-width:767px){
+.quantity {
+    justify-content: flex-end !important;
+}
+}
+button.minus, button.plus {
+    color: var(--e-global-color-text) !important;
+    border: 1px solid #dfdfdf !important;
+    transition: all 0.25s ease !important;
+    border-radius: 50px!important;
+    font-size: 18px !important;
+    background-color: #fff !important;
+    font-weight: 500 !important;
+    padding: 5px 13px !important;
+}
+button.minus:hover, button.plus:hover {
+    color: #fff !important;
+    border: 1px solid var( --e-global-color-secondary ) !important;
+	background-color: var( --e-global-color-secondary ) !important;
+}
+.woocommerce .quantity .qty {
+    width: 47px;
+    text-align: center;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+/******************************************************/
+// 1. Afficher bouton plus et moins
+/******************************************************/
+
+add_action( 'woocommerce_after_quantity_input_field', 'wycan_display_quantity_plus' );
+  
+function wycan_display_quantity_plus() {
+   echo '<button type="button" class="plus">+</button>';
+}
+  
+add_action( 'woocommerce_before_quantity_input_field', 'wycan_display_quantity_minus' );
+  
+function wycan_display_quantity_minus() {
+   echo '<button type="button" class="minus">-</button>';
+}
