@@ -1,77 +1,44 @@
-<?php
-// Ajouter dans la liste des commandes les produits + quantite + miniature associés à la commande sous le statut
-// Add to the orders list the products + quantity + thumbnail related to the order under the order state
-add_action('manage_shop_order_posts_custom_column', 'orders_list_preview_items', 20, 2 );
-function orders_list_preview_items($column, $post_id) {
-    
-    global $the_order, $post;
-    
-    if ('order_status' === $column) {
-        
-        // Start list
-        echo '<ul class="orders-list-items-preview">';
-        
-        // Loop through order items
-        foreach($the_order->get_items() as $item) {
-            
-            $product = $item->get_product();
-            $img     = wp_get_attachment_url($product->get_image_id());
-            
-            $name    = $item->get_name();
-            $qty     = $item->get_quantity();
-            
-            echo "<li>
-                <img src=\"$img\" />
-                <label>$qty</label> $name
-            </li>";
+// Ajouter les en-têtes de colonnes personnalisées
+function custom_order_column_headers($columns) {
+    $columns['products'] = 'Produits';
+    $columns['quantity'] = 'Quantité';
+    return $columns;
+}
+add_filter('manage_edit-shop_order_columns', 'custom_order_column_headers');
+
+// Remplir les colonnes avec les données
+function custom_order_column_data($column) {
+    global $post;
+
+    if ($column == 'products') {
+        $order = wc_get_order($post->ID);
+        $items = $order->get_items();
+
+        echo '<ul>';
+        foreach ($items as $item_id => $item_data) {
+            $product = $item_data->get_product();
+            echo '<li>' . $product->get_name() . '</li>';
         }
-        
-        // End list
         echo '</ul>';
     }
-    
-    
-}
 
+    if ($column == 'quantity') {
+        $order = wc_get_order($post->ID);
+        $items = $order->get_items();
 
-add_action('admin_head', 'orders_list_preview_css');
-function orders_list_preview_css() {
-  echo "<style>
-    .orders-list-items-preview {
-        background-color: #eee;
-        padding: 8px 8px 0 5px;
-        border-radius: 4px;
+        echo '<ul>';
+        foreach ($items as $item_id => $item_data) {
+            echo '<li>' . $item_data->get_quantity() . '</li>';
+        }
+        echo '</ul>';
     }
-    .orders-list-items-preview li {
-        padding-left: 55px;
-        position: relative;
-        padding-bottom: 10px;
-        padding-right: 40px;
-        padding-top: 0;
-        font-size: 10px;
-        line-height: 11px;
-        min-height: 30px;
-    }
-    .orders-list-items-preview li label {
-        border: 1px solid gray;
-        width: 25px;
-        display: block;
-        text-align: center;
-        border-radius: 4px;
-        right: 5px;
-        top: 0px;
-        position: absolute;
-        font-size: 12px;
-        font-weight: bold;
-        padding: 5px 0;
-    }
-    .orders-list-items-preview img {
-        margin: 1px 2px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 30px;
-        max-height: 30px !important;
-    }
-  </style>";
 }
+add_action('manage_shop_order_posts_custom_column', 'custom_order_column_data');
+
+// Rendre les colonnes triables
+function custom_order_column_sortable($columns) {
+    $columns['products'] = 'products';
+    $columns['quantity'] = 'quantity';
+    return $columns;
+}
+add_filter('manage_edit-shop_order_sortable_columns', 'custom_order_column_sortable');
